@@ -1,0 +1,39 @@
+import discord
+from discord.ext import commands
+import asyncio
+
+intents = discord.Intents.default()
+intents.message_content = True
+intents.members = True
+
+bot = commands.Bot(command_prefix='!', intents=intents, help_command=None)
+
+@bot.event
+async def on_ready():
+    print(f"=================================")
+    print(f"-> MRX BOT IS ONLINE & READY!")
+    print(f"-> USER: {bot.user.name}")
+    print(f"=================================")
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+    print(f"[NEW MSG] {message.author}: {message.content}")
+    await bot.process_commands(message)
+
+@bot.command(name="help_bot")
+async def help_bot(ctx):
+    await ctx.send("🔥 **MRX BOT WORKING ON PYDROID!** 🔥")
+
+@bot.command(name="say")
+async def say(ctx, *, text: str):
+    await ctx.message.delete()
+    await ctx.send(text)
+
+async def main():
+    # ألصق التوكن الجديد المنسوخ بعد الـ Reset مكان العبارة في الأسفل
+    await bot.start('')
+
+if __name__ == "__main__":
+    asyncio.run(main())
